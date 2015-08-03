@@ -1,73 +1,35 @@
+//npm requires//
 var express = require('express');
-var app = express(); //executing Express and named app
-// var app = require('express')();--> same thing in ONE line
-app.set('view engine', 'ejs');
 
+//file requires//
+var routes = require('./routes/index');
+var pizza = require('./routes/pizza');
+
+//variables//
+var app = express();
+
+//settings//
+app.set('view engine', 'ejs');
+app.set('case sensitive routing', true); //makes it case sensitive
+app.set('strict routing', true);
+
+//locals GOOD for Titles, All Templates have access to this!//
+// app.locals.title = "My Awesome App";
+app.locals.title = 'aweso.me';
+
+//middlewares//
 app.use(function(req, res, next) {
-  ///logging at the top
   console.log('Request at ' + new Date().toISOString());
   next(); //call next for middleware WHEN there's other things after! OTherwise, chain will end
 });
 
 app.use(express.static('public'));
 
-app.get('/', function (req, res) {
-//get method at route, and callback method where you get access to req & res
-  res.send('Hello World!');
-});
+///routes//
+app.use('/', routes);
+app.use('/pizza', pizza);
 
-// app.get('/pizza/:topping/:qty', function (req, res) {
-//   res.send(req.params);
-  ///REQ.PARAMS is an object params
-  //on page you see: http://localhost:3000/pizza/pepperoni/1
-// });
-
-app.get('/pizza/:topping/:qty', function (req, res) {
-  var obj = req.params;
-  obj.title = 'Pizza Shop';
-  res.render('templates/pizza', obj);
-});
-
-// The first one it comes to is the one executed. The 'this is root' wont show//
-// app.get('/', function (req, res) {
-//   res.send('This is the Root!');
-// });
-app.get('/awesomethings', function (req, res) {
-  setTimeout(function (){
-    var awesomeThings = [
-    'Pizza',
-    'Bacon',
-    '2nd Amendment',
-    'Pluto',
-    'Space Jam'
-  ];
-  res.render('templates/world',
-    { title: 'Awesomesite.com',
-       welcome: 'Thanks for coming by!',
-       awesomeThings: awesomeThings
-     }
-    );
-  }, 5000);
-});
-
-app.get('/test', function (req, res, next) {
-  res.write('Test1');
-  next();
-});
-
-app.get('/test', function (req, res) {
-  res.end('Test2');
-});
-
-app.get('/json', function (req, res) {
-  res.send({an: 'object'});
-});
-
-////Get an error one here////
-app.get('/thisshoulderror', function (req, res) {
-  res.send(badVariable);
-});
-
+//errors//
 app.use(function(req, res) {
   res.status(403).send('Unauthorized!!');
 });
