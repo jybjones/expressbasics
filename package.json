@@ -1,0 +1,22 @@
+{
+  "name": "expressbasics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jybjones/expressbasics.git"
+  },
+  "author": "Jennifer Jones <jybjones@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jybjones/expressbasics/issues"
+  },
+  "homepage": "https://github.com/jybjones/expressbasics#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
