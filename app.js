@@ -9,13 +9,38 @@ app.get('/', function (req, res) { //get method at route, and callback method wh
 });
 
 // The first one it comes to is the one executed. The 'this is root' wont show//
-app.get('/', function (req, res) {
-  res.send('This is the Root!');
+// app.get('/', function (req, res) {
+//   res.send('This is the Root!');
+// });
+app.get('/World', function (req, res) {
+  res.send('World');
+});
+
+app.get('/test', function (req, res) {
+  res.send('Test1');
+});
+
+app.get('/test', function (req, res) {
+  res.send('Test2');
+});
+
+app.get('/json', function (req, res) {
+  res.send({an: 'object'});
+});
+
+////Get an error one here////
+app.get('/thisshoulderror', function (req, res) {
+  res.send(badVariable);
+});
+
+////NEED to pass 4 ARGUMENTS to create an error handling!!!
+app.use(function (err, req, res, next) {
+  console.log('ERRRRRR', err.stack);
+  res.status(500).send('My Bad')
 });
 
 app.use(function(req, res) {
-  res.status(403);
-  res.send('Unauthorized!!');
+  res.status(403).send('Unauthorized!!');
 });
 
 
