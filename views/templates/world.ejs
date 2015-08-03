@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-US-Compatible" content="IE=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="css/main.css">
+ </head>
+ <body>
+    <h1> My site title is <%= title %></h1>
+     <h2><%= welcome %></h2>
+     <h3> These are the most awesome things...</h3>
+     <ul>
+        <% awesomeThings.forEach(function(thing) { %>
+        <li><%= thing %> is awesome!</li>
+        <% }); %>
+    </ul>
+
+</body>
+</html>
