@@ -11,8 +11,21 @@ app.use(function(req, res, next) {
 
 app.use(express.static('public'));
 
-app.get('/', function (req, res) { //get method at route, and callback method where you get access to req & res
+app.get('/', function (req, res) {
+//get method at route, and callback method where you get access to req & res
   res.send('Hello World!');
+});
+
+// app.get('/pizza/:topping/:qty', function (req, res) {
+//   res.send(req.params);
+  ///REQ.PARAMS is an object params
+  //on page you see: http://localhost:3000/pizza/pepperoni/1
+// });
+
+app.get('/pizza/:topping/:qty', function (req, res) {
+  var obj = req.params;
+  obj.title = 'Pizza Shop';
+  res.render('templates/pizza', obj);
 });
 
 // The first one it comes to is the one executed. The 'this is root' wont show//
