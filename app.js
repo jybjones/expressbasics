@@ -1,5 +1,6 @@
 //npm requires//
 var express = require('express');
+var lessCSS = require('less-middleware');
 
 //file requires//
 var routes = require('./routes/index');
@@ -18,12 +19,15 @@ app.set('strict routing', true);
 app.locals.title = 'aweso.me';
 
 //middlewares//
+app.use(lessCSS('public')); //attach middleware that will handle request
+
 app.use(function(req, res, next) {
   console.log('Request at ' + new Date().toISOString());
   next(); //call next for middleware WHEN there's other things after! OTherwise, chain will end
 });
 
 app.use(express.static('public'));
+
 
 ///routes//
 app.use('/', routes);
