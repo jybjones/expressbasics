@@ -48,10 +48,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.use(function(req, res, next) {
-//   console.log('Request at ' + new Date().toISOString());
-//   next(); //call next for middleware WHEN there's other things after! OTherwise, chain will end
-// });
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: false})); //this is for FORMS!!!
 
