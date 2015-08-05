@@ -5,10 +5,12 @@ var lessCSS = require('less-middleware');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
+
 //file requires//
 var routes = require('./routes/index');
 var pizza = require('./routes/pizza');
 var chickennuggets = require('./routes/chickennuggets');
+var imgur = require('./routes/imgur');
 
 //variables//
 var app = express();
@@ -58,6 +60,7 @@ app.use(bodyParser.urlencoded({extended: false})); //this is for FORMS!!!
 app.use('/', routes);
 app.use('/pizza', pizza);
 app.use('/chickennuggets', chickennuggets);
+app.use('/imgur', imgur);
 
 //errors//
 app.use(function(req, res) {
