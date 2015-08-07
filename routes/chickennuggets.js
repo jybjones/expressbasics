@@ -7,10 +7,16 @@ router.get('/', function (req, res) {
 });
 
 router.post('/order', function (req, res) {
-  console.log(req.body);
+  var collection = global.db.collection('chickenNuggets');
+    collection.save(req.body, function(){
+      res.redirect('/');
+    });
+  });
+
+  // console.log(req.body);
   // res.send('Thanks for ordering!');
-  res.redirect('/'); ////redirected to Hello World after placing order
-});
+//   res.redirect('/'); ////redirected to Hello World after placing order
+// });
 
 
 module.exports = router;

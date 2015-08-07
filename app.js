@@ -17,6 +17,7 @@ var app = express();
 
 // include the secrets tokens//
 require('./lib/secrets');
+require('./lib/mongodb'); //makes the global database available
 
 //settings//
 app.set('view engine', 'ejs');

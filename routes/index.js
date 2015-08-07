@@ -15,21 +15,32 @@ router.get(/hello/, function (req, res) {
 //   res.send('This is the Root!');
 // });
 router.get('/awesomethings', function (req, res) {
-  setTimeout(function (){
-    var awesomeThings = [
-    'Pizza',
-    'Bacon',
-    '2nd Amendment',
-    'Pluto',
-    'Space Jam'
-  ];
-  res.render('templates/world',
-    {  welcome: 'Thanks for coming by!',
-       awesomeThings: awesomeThings
-     }
-    );
-  }, 5000);
-});
+  var collection = global.db.collection('awesomeThings');
+    collection.find().toArray(function(err, things) {
+      res.render('templates/world',
+      {
+        welcome: 'Thanks for coming!',
+        awesomeThings: things //make SURE THIS matches the Mongo Shell data
+      }
+        );
+      });
+    });
+
+//    setTimeout(function (){
+//     var awesomeThings = [
+//     'Pizza',
+//     'Bacon',
+//     '2nd Amendment',
+//     'Pluto',
+//     'Space Jam'
+//   ];
+//   res.render('templates/world',
+//     {  welcome: 'Thanks for coming by!',
+//        awesomeThings: awesomeThings
+//      }
+//     );
+//   }, 5000);
+// });
 
 router.get('/test', function (req, res, next) {
   res.write('Test1');
