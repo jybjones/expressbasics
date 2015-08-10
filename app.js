@@ -1,4 +1,4 @@
-//npm requires//
+//npm requires/packages we need//
 var fs = require('fs');
 var express = require('express');
 var lessCSS = require('less-middleware');
@@ -12,11 +12,16 @@ var pizza = require('./routes/pizza');
 var chickennuggets = require('./routes/chickennuggets');
 var imgur = require('./routes/imgur');
 
-//variables//
+//packages we need//
 var app = express();
 
 // include the secrets tokens//
-require('./lib/secrets');
+// require('./lib/secrets');
+if (process.env.NODE_ENV !== 'production') {
+  require('./lib/secrets');
+}
+
+
 require('./lib/mongodb'); //makes the global database available
 
 //settings//
@@ -44,7 +49,7 @@ app.use(function (req, res, next) {
     date: new Date(),
     url: req.url,
     status: res.statusCode,
-    method: req.method,
+    method: req.method
   });
   next();
 });
@@ -83,9 +88,10 @@ app.use(function (err, req, res, next) {
 });
 
 
-var server = app.listen(3000, function () {
+var port = process.env.PORT || 3000;
+
+var server = app.listen(port, function () {
   var host = server.address().address;
   var port = server.address().port;
-
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('Example app listening at http://%s:%d', host, port);
 });

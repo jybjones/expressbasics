@@ -47,4 +47,16 @@ router.post('/order/:id/complete', function (req, res) {
     });
   });
 
+router.post('/order/:id/complete', function(req, res) {
+  var collection = global.db.collection('chickenNuggets');
+  collection.find().toArray(function(err, complete) {
+    var complete = orders.map(function (order) {
+      if(complete === true) {
+      return {_id: ObjectID(req.params.id)};
+    }
+    });
+    res.render('/chickennuggets', {complete: 'true'}); //this is the list of orders
+  });
+});
+
 module.exports = router;

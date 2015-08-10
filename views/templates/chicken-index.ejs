@@ -34,5 +34,33 @@
           <% }); %>
       </tbody>
     </table>
+    <h1> Completed Orders </h1>
+    <!-- <a href ="/chickennuggets/order">Completed Orders</a> -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Flavor</th>
+          <th>Qty</th>
+          <th>Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach(function(order) {%>
+          <tr>
+            <td><%= order.name %></td>
+            <td><%= order.flavor %></td>
+            <td><%= order.qty %></td>
+            <td><%= order.createdAt %></td>
+            <td>
+              <form action="/chickennuggets/order/<%= order._id %>/complete===true" method="update">
+              <!-- <input type="submit" value = "Complete"> -->
+              </form>
+            </td>
+          </tr>
+          <% }); %>
+      </tbody>
+    </table>
   </body>
 </html>
