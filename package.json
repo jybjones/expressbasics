@@ -23,6 +23,7 @@
     "express": "^4.13.3",
     "imgur": "^0.1.6",
     "less-middleware": "^2.0.1",
+    "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "mongodb": "^2.0.40",
     "morgan": "^1.6.1",
