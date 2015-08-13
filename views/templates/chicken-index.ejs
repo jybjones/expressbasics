@@ -1,14 +1,10 @@
 <!DOCTYPE HTML>
-<html lang="en-US">
-  <head>
-    <title><%= title %> | Chicken | List Orders </title>
-   <!--  //title coming from res.local// -->
-    <!-- <link rel ="stylesheet" href="/stylesheets/main.css"> -->
-  </head>
-  <body>
-    <h1> Orders </h1>
-    <a href ="/chickennuggets/order">New Order</a>
-    <table>
+<html>
+<%- include('head', {page: 'Chicken | List Orders'}) %>
+<body>
+  <h1>Orders</h1>
+  <a href="/chickennuggets/order">New Order</a>
+  <table>
       <thead>
         <tr>
           <th>Name</th>
@@ -55,12 +51,13 @@
             <td><%= order.createdAt %></td>
             <td>
               <form action="/chickennuggets/order/<%= order._id %>/complete===true" method="update">
-              <!-- <input type="submit" value = "Complete"> -->
+              <input type="submit" value = "Complete">
               </form>
             </td>
           </tr>
           <% }); %>
       </tbody>
     </table>
+    <%- include('javascripts') %>
   </body>
 </html>
