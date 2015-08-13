@@ -34,7 +34,7 @@ app.set('strict routing', true);
 app.locals.title = 'aweso.me';
 
 //middlewares//
-app.use(lessCSS('public')); //attach middleware that will handle request
+app.use(lessCSS('www/stylesheets')); //attach middleware that will handle request
 
 //create a stream//
 var logStream = fs.createWriteStream('access.log', {flags: 'a'});
@@ -54,7 +54,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.static('public'));
+
 app.use(bodyParser.urlencoded({extended: false})); //this is for FORMS!!!
 
 
@@ -63,6 +63,7 @@ app.use('/', routes);
 app.use('/pizza', pizza);
 app.use('/chickennuggets', chickennuggets);
 app.use('/imgur', imgur);
+app.use(express.static('www'));
 
 //errors//
 app.use(function(req, res) {
