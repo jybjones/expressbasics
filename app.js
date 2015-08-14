@@ -11,6 +11,7 @@ var routes = require('./routes/index');
 var pizza = require('./routes/pizza');
 var chickennuggets = require('./routes/chickennuggets');
 var imgur = require('./routes/imgur');
+var user = require ('./routes/user');
 
 //packages we need//
 var app = express();
@@ -64,6 +65,7 @@ app.use('/pizza', pizza);
 app.use('/chickennuggets', chickennuggets);
 app.use('/imgur', imgur);
 app.use(express.static('www'));
+app.use('/user', user);
 
 //errors//
 app.use(function(req, res) {
