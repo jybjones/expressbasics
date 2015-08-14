@@ -7,6 +7,50 @@ function User(u) {
   //this.hashedPassword =
 }
 
+User.findByEmail = function(email, cb) {
+  User.collection.findOne({email: email}, cb);
+    };
+
+User.login = function (u, cb) {
+  User.findByEmail(u.email, function(err, user) {
+  if (user) {
+      bcrypt.compare(u.password, user.hashedPassword, function(err, match) {
+        if (match) {
+          //login user. Null = no error//
+          console.log('user should be: ' + user);
+          cb(null, user);
+        } else {
+          ////bad password or error
+          cb('Bad Email or Password!')
+        }
+      });
+    } else {
+      ///bad email
+      cb('Bad Email or Password!')
+    }
+  });
+}
+
+// User.login = function (u, cb) {
+//   User.collection.findOne({email: u.email}, function(err, user) {
+//     //___check if user exists first__//
+//     if (user) {
+//       bcrypt.compare(u.password, user.hashedPassword, function(err, match) {
+//         if (match) {
+//           //login user. Null = no error//
+//           cb(null, user);
+//         } else {
+//           ////bad password or error
+//           cb('Bad Email or Password!')
+//         }
+//       });
+//     } else {
+//       ///bad email
+//       cb('Bad Email or Password!')
+//     }
+//   });
+// }
+
 User.create = function(u, cb) {
   if (u.password !== u.password_confirm) {
     cb('Passwords do not match');

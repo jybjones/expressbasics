@@ -4,6 +4,7 @@ var express = require('express');
 var lessCSS = require('less-middleware');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 
 //file requires//
@@ -34,10 +35,17 @@ app.set('strict routing', true);
 // app.locals.title = "My Awesome App";
 app.locals.title = 'aweso.me';
 
-//middlewares//
-app.use(lessCSS('www/stylesheets')); //attach middleware that will handle request
+//__________________middlewares___________________________///////
+app.use(session({
+  secret: 'expressbasicsisareallyawesomeapp',
+  resave: false,
+  saveUninitialized: true
+}));
 
-//create a stream//
+app.use(lessCSS('www/stylesheets')); //attach middleware that will handle request
+app.use(bodyParser.urlencoded({extended: false})); //this is for FORMS!!!
+
+//________________create a stream____________________//
 var logStream = fs.createWriteStream('access.log', {flags: 'a'});
 app.use(morgan('combined', {stream: logStream})); //outputs to file
 app.use(morgan('dev')); //terminal
@@ -55,24 +63,43 @@ app.use(function (req, res, next) {
   next();
 });
 
-
-app.use(bodyParser.urlencoded({extended: false})); //this is for FORMS!!!
-
-
-///routes//
+///____________routes that need login__________________//
+app.use('/user', user);
 app.use('/', routes);
+app.use(express.static('www'));
+
+app.use(function requireAuth(req, res, next) {
+    if (req.session.userId) {
+      next();
+    } else {
+      res.redirect('/user/login');
+    }
+    // req.session.count += 1;
+    //   console.log('SESSION>>>>>>>>>>>', req.session);
+    //   console.log(req.sessionID);
+    // next();
+  });
+
+  // app.use(function(req, res, next) { //regenerate a NEW session ID cookie//
+  //   req.session.regenerate(function () {
+  //     console.log('SESSION>>>>>>>>>>>', req.session);
+  //   next();
+  // });
+
+// });
+
+///____________routes__________________//
 app.use('/pizza', pizza);
 app.use('/chickennuggets', chickennuggets);
 app.use('/imgur', imgur);
-app.use(express.static('www'));
-app.use('/user', user);
+
 
 //errors//
 app.use(function(req, res) {
   res.status(403).send('Unauthorized!!');
 });
 
-///////LOGGLY to test ERRORS/////
+///__________LOGGLY to test ERRORS________________/////
 app.use(function (err, req, res, next) {
   var client = require('./lib/loggly')('error');
     client.log({
@@ -90,7 +117,7 @@ app.use(function (err, req, res, next) {
   res.status(500).send('My Bad')
 });
 
-
+/////______________Server!!!!!___________________///////
 var port = process.env.PORT || 3000;
 
 var server = app.listen(port, function () {
