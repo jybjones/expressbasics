@@ -1,37 +1,38 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <%- include('head', {page: 'Chicken | List Orders'}) %>
 <body>
+  <%- include('header') %>
   <h1>Orders</h1>
   <a href="/chickennuggets/order">New Order</a>
   <table>
-      <thead>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Flavor</th>
+        <th>Qty</th>
+        <th>Time</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.forEach(function (order) { %>
         <tr>
-          <th>Name</th>
-          <th>Flavor</th>
-          <th>Qty</th>
-          <th>Time</th>
-          <th>Actions</th>
+          <td><%= order.name %></td>
+          <td><%= order.flavor %></td>
+          <td><%= order.qty %></td>
+          <td><%= order.createdAt %></td>
+          <td>
+            <form action="/chickennuggets/order/<%= order._id %>/complete" method="post">
+              <input type="submit" value="Complete">
+            </form>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <% orders.forEach(function(order) {%>
-          <tr>
-            <td><%= order.name %></td>
-            <td><%= order.flavor %></td>
-            <td><%= order.qty %></td>
-            <td><%= order.createdAt %></td>
-            <td>
-              <form action="/chickennuggets/order/<%= order._id %>/complete" method="post">
-              <input type="submit" value = "Complete">
-              </form>
-            </td>
-          </tr>
-          <% }); %>
-      </tbody>
-    </table>
-    <h1> Completed Orders </h1>
-    <!-- <a href ="/chickennuggets/order">Completed Orders</a> -->
+      <% }); %>
+    </tbody>
+  </table>
+
+  <br>
     <table>
       <thead>
         <tr>
@@ -39,25 +40,23 @@
           <th>Flavor</th>
           <th>Qty</th>
           <th>Time</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <% orders.forEach(function(order) {%>
+        <% orders.forEach(function (order) {
+          if (order.complete) { %>
           <tr>
-            <td><%= order.name %></td>
-            <td><%= order.flavor %></td>
-            <td><%= order.qty %></td>
-            <td><%= order.createdAt %></td>
-            <td>
-              <form action="/chickennuggets/order/<%= order._id %>/complete===true" method="update">
-              <input type="submit" value = "Complete">
-              </form>
-            </td>
-          </tr>
-          <% }); %>
+              <td><%= order.name %></td>
+              <td><%= order.flavor %></td>
+              <td><%= order.qty %></td>
+              <td><%= order.createdAt %></td>
+            </tr>
+        <% }}); %>
+
       </tbody>
     </table>
-    <%- include('javascripts') %>
-  </body>
-</html>
+     <%- include('javascripts') %>
+    </body>
+
+  </html>
+

@@ -5,6 +5,7 @@ var ObjectID = require('mongodb').ObjectID;
 
 //////____ADD additinal properties for DB_______
 function Order(o) {
+  this.userId = ObjectID(o.userId);
   this.name = o.name;
   this.style = o.style;
   this.qty = o.qty;
@@ -19,6 +20,11 @@ Object.defineProperty(Order, 'collection', {
     return global.db.collection('chickenNuggets');
   }
 });
+
+Order.create = function (o, cb) {
+  var order = new Order(o);
+  order.save(cb);
+}
 
 Order.prototype.save = function (cb) {
   Order.collection.save(this, cb);
@@ -39,8 +45,8 @@ Order.findById = function(id, cb) {
 };
 
 //////all this function does is grab from database!!////
-Order.findAll = function (cb) {
-  Order.collection.find().toArray(function (err, orders) {
+Order.findAllByUserId = function (id, cb) {
+  Order.collection.find({userId: ObjectID(id)}).toArray(function (err, orders) {
     var prototypedOrders = orders.map(function (order) {
       return setPrototype(order);
     });

@@ -16,11 +16,11 @@ router.get(/hello/, function (req, res) {
 // });
 router.get('/awesomethings', function (req, res) {
   var collection = global.db.collection('awesomeThings');
-    collection.find().toArray(function(err, things) {
+    collection.find().toArray(function(err, awesomeThings) {
       res.render('templates/world',
       {
         welcome: 'Thanks for coming!',
-        awesomeThings: things //make SURE THIS matches the Mongo Shell data
+        awesomeThings: awesomeThings //make SURE THIS matches the Mongo Shell data
       }
         );
       });

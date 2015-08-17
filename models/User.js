@@ -1,5 +1,7 @@
 //////____Database User Model ________/////////
 var bcrypt = require('bcrypt');
+var _ = require('lodash');
+
 function User(u) {
   this.email = u.email;
   this.hashedPassword = u.hashedPassword;
@@ -7,9 +9,11 @@ function User(u) {
   //this.hashedPassword =
 }
 
-User.findByEmail = function(email, cb) {
-  User.collection.findOne({email: email}, cb);
-    };
+User.findByEmail = function (email, cb) {
+  User.collection.findOne({email: email}, function (err, user) {
+    cb(err, setPrototype(user));
+  });
+};
 
 User.login = function (u, cb) {
   User.findByEmail(u.email, function(err, user) {
@@ -60,8 +64,12 @@ User.create = function(u, cb) {
       u.hashedPassword = hash;
       var user = new User(u);
       // console.log(hash);
-      User.collection.save(user, cb);
+      user.save(cb);
     });
+};
+
+User.prototype.save = function(cb) {
+  User.collection.save(this, cb);
 };
 ///////______this will prob be in EVERY model you create!!______//////
 Object.defineProperty(User, 'collection', {
@@ -71,3 +79,7 @@ Object.defineProperty(User, 'collection', {
 });
 
 module.exports = User;
+
+function setPrototype(pojo) {
+  return _.create(User.prototype, pojo);
+}

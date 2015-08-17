@@ -4,17 +4,30 @@ var router = express.Router();
 
 var User = require('../models/User');
 
+router.get('/logout', function (req, res) {
+  req.session.regenerate(function () {
+    res.redirect('/user/login');
+  });
+});
 
-//___create new route for login page______/////
+//___create new route for logout page______/////
+router.get('/logout', function(req, res) {
+  req.session.regenerate(function () {
+    res.redirect('/user/login');
+  });
+});
+//_____create Login______________///////////////
 router.get('/login', function loginUser(req, res) {
-  res.render('user/login');
+  req.session.regenerate(function () {
+    res.render('user/login');
+  });
 });
 
 //___create new route for login page______/////
 router.post('/login', function doLogin(req, res) {
   User.login(req.body, function(err, user) {
     req.session.regenerate(function() {
-      req.session.userId = user._id;
+      req.session.user = user;
       res.redirect('/');
     });
   });
@@ -22,7 +35,9 @@ router.post('/login', function doLogin(req, res) {
 
 //___create new route for register page______/////
 router.get('/new', function newUser(req, res) {
-  res.render('user/new');
+  req.session.regenerate(function () {
+    res.render('user/new');
+  });
 });
 
 router.post('/', function createUser(req, res) {
@@ -37,12 +52,6 @@ router.post('/', function createUser(req, res) {
   });
 
 });
-
-
-
-
-
-
 
 
 module.exports = router;
